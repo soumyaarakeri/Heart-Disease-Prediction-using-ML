@@ -138,14 +138,14 @@ prediction = model.predict(reshaped_array)
 print(prediction)
 
 if(prediction[0] == 0):
-    print("The Patient has a healthy heart 💛💛💛💛")
+    print("The Patient has a healthy heart 🟢🟢🟢🟢🟢🟢")
 
 else:
-    print("The Patient has an unhealthy heart 💔💔💔💔")
+    print("The Patient has an unhealthy heart 🔴🔴🔴🔴🔴🔴🔴")
 ```
 
 ## Notations of predicted output: 
 
-  - [0] : means patient has a healthy heart 💛💛💛💛
-  - [1] : means patient has a unhealthy heart 💔💔💔💔
+  - [0] : means patient has a healthy heart 🟢🟢🟢
+  - [1] : means patient has a unhealthy heart 🔴🔴🔴
   
