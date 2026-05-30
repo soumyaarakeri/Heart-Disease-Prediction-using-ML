@@ -1,6 +1,5 @@
-# Heart-Disease-Prediction-System-using-Logistic-Regression
+# Heart-Disease-Prediction-System-using-Machine-Learning
 A Heart Disease Prediction System built on machine learning 
-
 
 ## Principle 
 

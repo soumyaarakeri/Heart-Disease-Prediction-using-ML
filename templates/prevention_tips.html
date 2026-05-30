@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Heart Disease Prevention — Tips & Guidelines</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome (flat line icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  :root{
+    --bg:#0b0a0b;
+    --panel:#0f1412;
+    --amber-1: #ffd086;
+    --amber-2: #ffb347;
+    --muted: #c9c1b8;
+    --card: rgba(255,255,255,0.03);
+    --accent: linear-gradient(90deg, #ffcf78, #ff9f43);
+    --glass: rgba(255,255,255,0.02);
+    --radius: 14px;
+    --glow: 0 18px 60px rgba(255,160,60,0.06);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; background:linear-gradient(180deg,#070707,var(--bg));
+    color:#fff; font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* page border/frame */
+  .frame{
+    max-width:1200px; margin:28px auto; padding:6px; border-radius:18px;
+    background: linear-gradient(90deg, rgba(255,207,120,0.12), rgba(255,159,67,0.08));
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .container{
+    border-radius:12px; overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    padding:28px; box-shadow:var(--glow); border:1px solid rgba(255,200,120,0.03);
+  }
+
+  header{
+    display:flex; gap:18px; align-items:center; margin-bottom:18px;
+  }
+  .logo{
+    width:88px; height:88px; border-radius:50%; overflow:hidden; flex-shrink:0;
+    border:3px solid rgba(255,200,100,0.08); box-shadow:0 10px 30px rgba(255,160,60,0.04);
+  }
+  .logo img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .title h1{
+    margin:0; font-family:'Playfair Display', serif; font-size:26px; color:var(--amber-1);
+    letter-spacing:0.2px;
+    display:inline-block;
+    /* heartbeat animation */
+    animation: heartbeat 2s ease-in-out infinite;
+  }
+  .title p{margin:6px 0 0; color:var(--muted); font-size:14px}
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); text-shadow: 0 0 0 rgba(255,200,120,0.0); }
+    25% { transform: scale(1.02); text-shadow: 0 8px 30px rgba(255,170,80,0.06); }
+    50% { transform: scale(1); text-shadow: 0 0 0 rgba(255,200,120,0.0); }
+    75% { transform: scale(1.015); text-shadow: 0 10px 36px rgba(255,165,70,0.05); }
+    100% { transform: scale(1); text-shadow: 0 0 0 rgba(255,200,120,0.0); }
+  }
+
+  /* layout */
+  .intro{display:grid; grid-template-columns:1fr 340px; gap:20px; align-items:start}
+  .left{min-width:0}
+  .right{min-width:0}
+
+  /* card / section */
+  .section{
+    background:var(--card); border-radius:var(--radius); padding:18px; margin-bottom:16px;
+    border:1px solid rgba(255,200,120,0.04); transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .section:hover{transform:translateY(-6px); box-shadow:0 30px 70px rgba(255,150,40,0.03)}
+  .section h2{margin:0 0 8px; font-family:'Playfair Display',serif; color:var(--amber-2); font-size:20px}
+  .muted{color:var(--muted); font-size:13px; margin-bottom:10px}
+
+  /* grid of main content */
+  .grid{display:grid; grid-template-columns:1fr 380px; gap:20px; margin-top:12px}
+
+  /* risk factors icons */
+  .grid-factors{display:flex; flex-wrap:wrap; gap:12px}
+  .factor{flex:1 1 45%; display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); border:1px solid rgba(255,200,120,0.03)}
+  .factor .ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#fff7e6, #ffd9a8);color:#3a2b0a;font-size:18px}
+  .factor h4{margin:0;font-size:15px;color:#fff}
+  .factor p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+  /* removed methodology related styles are kept but will not be used */
+
+  /* lists and diet table */
+  ul { padding-left:18px; color:#fff }
+  .dos-donts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .dos, .donts{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,200,120,0.03)}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left;color:#fff}
+  th{color:#3a2b0a;background:linear-gradient(90deg,#fff7e6,#ffd9a8);border-radius:6px}
+
+  /* images */
+  .hero-img{width:100%;height:220px;border-radius:12px;object-fit:cover;border:1px solid rgba(255,200,120,0.04)}
+  .small-img{width:100%;height:130px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,200,120,0.04)}
+
+  /* button */
+  .btn{display:inline-block;padding:12px 18px;border-radius:10px;background:linear-gradient(90deg,var(--amber-2),var(--amber-1));color:#231f10;text-decoration:none;font-weight:700;box-shadow:0 14px 40px rgba(255,160,60,0.12)}
+  .btn:hover{transform:translateY(-4px)}
+
+  footer{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
+
+  /* responsive */
+  @media (max-width:980px){
+    .grid{grid-template-columns:1fr}
+    .intro{display:block}
+    .logo{width:72px;height:72px}
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="container" role="main">
+
+      <!-- Header -->
+      <header>
+        <div class="logo" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3d4f7a9b6a3d5b5f5a7a6c3b2f3d1e2a" alt="heart logo">
+        </div>
+        <div class="title">
+          <h1>❤️ Heart Disease Prevention — Tips & Guidelines</h1>
+          <p class="muted">Practical steps, diet, exercise and warning signs to keep your heart healthy.</p>
+        </div>
+      </header>
+
+      <!-- Intro area -->
+      <div class="intro">
+        <div class="left">
+          <section class="section">
+            <h2>Introduction</h2>
+            <p class="muted">Why prevention matters</p>
+            <p>
+              Heart disease is one of the leading causes of illness globally. Prevention through lifestyle changes, early detection and regular check-ups significantly reduces the risk.
+              This page summarizes evidence-based prevention tips, risk factors, and when to seek medical help.
+            </p>
+          </section>
+
+          <section class="section">
+            <h2>Major Risk Factors</h2>
+            <p class="muted">Understand what increases your risk</p>
+            <div class="grid-factors">
+              <div class="factor"><div class="ico"><i class="fa-solid fa-smoking"></i></div><div><h4>🚬 Smoking</h4><p>Tobacco use damages blood vessels and increases clot risk.</p></div></div>
+              <div class="factor"><div class="ico"><i class="fa-solid fa-burger"></i></div><div><h4>🍔 Unhealthy Diet</h4><p>High saturated fats, sugar and salt raise cholesterol and BP.</p></div></div>
+              <div class="factor"><div class="ico"><i class="fa-solid fa-scale-unbalanced"></i></div><div><h4>⚖️ Obesity</h4><p>Increases strain on the heart and risk of diabetes.</p></div></div>
+              <div class="factor"><div class="ico"><i class="fa-solid fa-bed"></i></div><div><h4>😴 Poor Sleep & Stress</h4><p>Chronic stress and poor sleep harm cardiovascular health.</p></div></div>
+              <div class="factor"><div class="ico"><i class="fa-solid fa-walking"></i></div><div><h4>🚶 Physical Inactivity</h4><p>Regular activity reduces blood pressure and improves lipid profile.</p></div></div>
+              <div class="factor"><div class="ico"><i class="fa-solid fa-heart-pulse"></i></div><div><h4>🧬 Family History & Age</h4><p>Genetics and advancing age increase baseline risk.</p></div></div>
+            </div>
+          </section>
+
+          <!-- Healthy Lifestyle -->
+          <section class="section">
+            <h2>Healthy Lifestyle & Daily Habits</h2>
+            <p class="muted">Simple, effective daily routines</p>
+            <ul>
+              <li>Aim for 30 minutes of moderate exercise most days (brisk walking, cycling).</li>
+              <li>Follow a heart-healthy diet: plenty of vegetables, fruits, whole grains, lean protein.</li>
+              <li>Limit processed foods, red meat, sugary drinks and excessive salt.</li>
+              <li>Quit smoking — ask your doctor for support programs or nicotine replacement.</li>
+              <li>Manage stress with mindfulness, hobbies, or professional support.</li>
+            </ul>
+            <img class="small-img" src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1971a88b6f6a2e4a6f3d8c2c7b9d4e9f" alt="healthy habits">
+          </section>
+
+          <!-- Diet Recommendations -->
+          <section class="section">
+            <h2>Dietary Recommendations</h2>
+            <p class="muted">What to eat (and what to avoid)</p>
+            <table>
+              <tr><th>Recommended</th><th>Avoid / Limit</th></tr>
+              <tr><td>Vegetables & fruits, whole grains, legumes</td><td>Processed meats, fried foods, sugary beverages</td></tr>
+              <tr><td>Lean proteins: fish, poultry, tofu</td><td>Excess red meat, high-fat dairy</td></tr>
+              <tr><td>Healthy fats: olive oil, nuts, seeds</td><td>Trans fats, excessive saturated fats</td></tr>
+              <tr><td>Low sodium cooking, herbs & spices</td><td>High-salt packaged foods</td></tr>
+            </table>
+            <p class="muted" style="margin-top:8px">Tip: Try the Mediterranean-style plate — balanced, plant-forward and heart-friendly.</p>
+          </section>
+
+          <!-- Physical Exercise -->
+          <section class="section">
+            <h2>Physical Activity Guidelines</h2>
+            <p class="muted">Simple exercise plan</p>
+            <ul>
+              <li>Aim for at least 150 minutes of moderate aerobic activity per week or 75 minutes of vigorous activity.</li>
+              <li>Include strength training 2 days/week (resistance bands, body-weight exercises).</li>
+              <li>Break long sitting sessions with short walks or stretches every hour.</li>
+            </ul>
+            <img class="small-img" src="https://images.unsplash.com/photo-1554284126-aa88f22d8f2e?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b6a2ad2b7b4d6a2d8f0e8a7f9c2b4d1" alt="exercise">
+          </section>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right">
+          <!-- Methodology removed as requested -->
+
+          <section class="section">
+            <h2>Do's & Don'ts</h2>
+            <div class="dos-donts">
+              <div class="dos">
+                <h4 style="margin-top:0;color:#fff">✅ Do's</h4>
+                <ul>
+                  <li>Get regular BP and cholesterol checks.</li>
+                  <li>Stick to a balanced meal plan and activity routine.</li>
+                  <li>Follow doctor's advice on medications and tests.</li>
+                </ul>
+              </div>
+              <div class="donts">
+                <h4 style="margin-top:0;color:#fff">🚫 Don'ts</h4>
+                <ul>
+                  <li>Don't ignore persistent chest pain or breathlessness.</li>
+                  <li>Avoid self-medicating or skipping follow-ups.</li>
+                  <li>Don't rely solely on online self-diagnosis.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2>When to See a Doctor</h2>
+            <p class="muted">Seek prompt medical advice if you have:</p>
+            <ul>
+              <li>Repeated chest discomfort, pressure or tightness</li>
+              <li>Shortness of breath not explained by exertion</li>
+              <li>Fainting spells, sudden weakness, or slurred speech</li>
+              <li>Rapid or irregular heartbeat or unexplained fatigue</li>
+            </ul>
+            <img class="small-img" src="https://images.unsplash.com/photo-1582719478250-0a7f7f1b3d44?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1a9c5f7b6b8c5d3a4f1e4b2a9c3d5e7f" alt="doctor consultation">
+          </section>
+
+          <section class="section" aria-label="emergency">
+            <h2>Emergency Warning Signs</h2>
+            <p class="muted">Call emergency services immediately if someone has:</p>
+            <ul>
+              <li>Severe chest pain or pressure lasting &gt; 5 minutes</li>
+              <li>Fainting or loss of consciousness</li>
+              <li>Sudden difficulty speaking or facial droop</li>
+              <li>Sudden severe breathlessness</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+
+      <!-- Footer controls -->
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <div style="color:var(--muted);font-size:13px">Prepared for awareness • Golden Amber theme</div>
+        <div style="display:flex;gap:12px">
+          <a class="btn" href="https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)" title="Visit WHO for more info">🌐 Visit WHO Website for More Information</a>
+          <a class="btn" href="index.html" title="Back to Dashboard">← Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

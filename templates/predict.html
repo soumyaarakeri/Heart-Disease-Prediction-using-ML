@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Heart Disease Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: url("https://img.freepik.com/premium-photo/red-blue-human-heart_777078-35641.jpg") no-repeat center center/cover;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(40, 0, 60, 0.85);
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0px 0px 12px rgba(255, 0, 255, 0.7));
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 26px;
+      color: #ff9dfc;
+      text-shadow: 0px 0px 8px rgba(255, 0, 255, 0.8);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      text-align: left;
+      color: #f5d1ff;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      box-shadow: 0 0 10px #a020f0;
+    }
+
+    button {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #7b2ff7, #f107a3);
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #f107a3, #7b2ff7);
+      transform: scale(1.05);
+      box-shadow: 0 4px 18px rgba(255, 0, 255, 0.6);
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #00ffcc;
+      text-shadow: 0px 0px 6px rgba(0, 255, 204, 0.8);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Heart Logo" class="logo"> -->
+    <h2>🫀 Heart Disease Prediction</h2>
+
+      <!-- 🧭 NAVIGATION BAR (ADD THIS) -->
+
+    <form action="/predict" method="POST">
+      <label>Age</label>
+      <input type="number" name="age" required>
+
+      <label>Sex</label>
+      <select name="sex" required>
+        <option value="">Select</option>
+        <option value="1">Male</option>
+        <option value="0">Female</option>
+      </select>
+
+      <label>Chest Pain Type (cp)</label>
+      <input type="number" name="cp" min="0" max="3" required>
+
+      <label>Resting Blood Pressure (trestbps)</label>
+      <input type="number" name="trestbps" required>
+
+      <label>Serum Cholesterol (chol)</label>
+      <input type="number" name="chol" required>
+
+      <label>Fasting Blood Sugar > 120 mg/dl (fbs)</label>
+      <select name="fbs" required>
+        <option value="">Select</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+
+      <label>Resting ECG (restecg)</label>
+      <input type="number" name="restecg" min="0" max="2" required>
+
+      <label>Maximum Heart Rate (thalach)</label>
+      <input type="number" name="thalach" required>
+
+      <label>Exercise Induced Angina (exang)</label>
+      <select name="exang" required>
+        <option value="">Select</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+
+      <label>Oldpeak (ST Depression)</label>
+      <input type="number" step="0.1" name="oldpeak" required>
+
+      <label>Slope of Peak Exercise (slope)</label>
+      <input type="number" name="slope" min="0" max="2" required>
+
+      <label>Number of Major Vessels (ca)</label>
+      <input type="number" name="ca" min="0" max="3" required>
+
+      <label>Thalassemia (thal)</label>
+      <input type="number" name="thal" min="0" max="3" required>
+
+      <button type="submit">Predict</button>
+    </form>
+
+    <a href="/report" class="report-btn">View Detailed Report</a>
+
+    {% if prediction_text %}
+    <div class="result">{{ prediction_text }}</div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Heart Disease Report</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 85%;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0px 0px 12px #d0d0d0;
+            border-radius: 10px;
+        }
+
+        h1, h2 {
+            color: #2b4c7e;
+            text-align: center;
+        }
+
+        .highlight {
+            font-size: 22px;
+            background: #eaf2ff;
+            padding: 12px;
+            border-left: 6px solid #2b4c7e;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #c7c7c7;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        th {
+            background: #2b4c7e;
+            color: white;
+        }
+
+        .graphs {
+            margin-top: 25px;
+        }
+
+        .graph-box {
+            margin-bottom: 35px;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 8px;
+            box-shadow: 0px 0px 8px #e3e3e3;
+        }
+
+        img {
+            width: 95%;
+            border-radius: 8px;
+            display: block;
+            margin: auto;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 15px;
+            background: #2b4c7e;
+            color: white;
+            border-radius: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Heart Disease Risk Assessment Report</h1>
+    <hr><br>
+
+    <!-- Prediction Summary -->
+    <div class="highlight">
+        <strong>Patient Diagnosis:</strong> {{ prediction_text }}
+    </div>
+
+    <!-- Model Metrics -->
+    <h2>Model Accuracy Summary</h2>
+    <table>
+        <tr>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1 Score</th>
+        </tr>
+        <tr>
+            <td>{{ accuracy }}</td>
+            <td>{{ precision }}</td>
+            <td>{{ recall }}</td>
+            <td>{{ f1 }}</td>
+        </tr>
+    </table>
+
+    <br><hr>
+
+    <!-- Graph Section -->
+    <h2>Visual Analysis</h2>
+
+    <div class="graphs">
+
+        <div class="graph-box">
+            <h3>Risk Probability</h3>
+            <img src="/static/images/risk_probability.png">
+        </div>
+
+        <div class="graph-box">
+            <h3>Risk vs Safe Distribution</h3>
+            <img src="/static/images/pie_risk.png">
+        </div>
+
+        <div class="graph-box">
+            <h3>Patient Input Parameters (Bar Visualization)</h3>
+            <img src="/static/images/input_bar.png">
+        </div>
+
+        <!-- <div class="graph-box">
+            <h3>Trend of Key Health Parameters</h3>
+            <img src="/static/images/line_graph.png">
+        </div> -->
+
+        <!-- <div class="graph-box">
+            <h3>Confusion Matrix</h3>
+            <img src="/static/images/confusion_matrix.png">
+        </div> -->
+
+        <div class="graph-box">
+            <h3>ROC Curve</h3>
+            <img src="/static/images/roc_curve.png">
+        </div>
+
+        <div class="graph-box">
+            <h3>Feature Importance</h3>
+            <img src="/static/images/feature_importance.png">
+        </div>
+
+    </div>
+
+<h3>{{ prediction }}</h3>
+<!-- <p>Probability: {{ probability }}</p> -->
+
+<!-- <h3>Generated Analysis</h3>
+<img src="/static/images/risk_probability.png"><br>
+<img src="/static/images/input_bar.png"><br>
+<img src="/static/images/pie_risk.png"><br>
+<img src="/static/images/line_graph.png"><br>
+<img src="/static/images/confusion_matrix.png"><br>
+<img src="/static/images/roc_curve.png"><br> -->
+
+
+</div>
+
+<footer>
+    © 2025 HeartCare AI – Automated Heart Risk Diagnosis System
+</footer>
+
+</body>
+</html>

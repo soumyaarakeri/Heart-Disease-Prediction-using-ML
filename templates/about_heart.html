@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About Heart Disease</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  :root{
+    --bg:#0b0b0c;
+    --panel:#141213;
+    --red1:#ff6b6b;
+    --red2:#ff3b3b;
+    --muted:#c9bdbd;
+    --card-bg: rgba(255,255,255,0.02);
+    --border-grad: linear-gradient(90deg, rgba(255,107,107,0.14), rgba(255,59,59,0.10));
+    --radius:14px;
+    --glow: 0 22px 60px rgba(255,59,59,0.04);
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#070607,var(--bg));color:#fff;font-family:'Poppins',system-ui,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased;}
+
+  /* page frame */
+  .frame{max-width:1180px;margin:32px auto;padding:6px;border-radius:18px;position:relative;}
+  .frame:before{
+    content:"";position:absolute;inset:0;border-radius:18px;padding:4px;
+    background:var(--border-grad) border-box, linear-gradient(180deg,#070607,var(--bg)) padding-box;
+    -webkit-mask: linear-gradient(#fff,#fff) content-box, linear-gradient(#fff,#fff);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+
+  .container{border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));padding:28px;box-shadow:var(--glow);border:1px solid rgba(255,80,80,0.03);overflow:hidden;}
+
+  header{display:flex;gap:18px;align-items:center;margin-bottom:20px}
+  .logo{width:90px;height:90px;border-radius:16px;overflow:hidden;border:3px solid rgba(255,80,80,0.06);box-shadow:0 10px 30px rgba(255,80,80,0.04);flex-shrink:0}
+  .logo img{width:100%;height:100%;object-fit:cover;display:block}
+  .title h1{margin:0;font-family:'Playfair Display',serif;color:var(--red1);font-size:26px;letter-spacing:0.4px;display:inline-block;animation:heartbeat 2s ease-in-out infinite;}
+  .title p{margin:6px 0 0;color:var(--muted);font-size:14px}
+
+  @keyframes heartbeat{
+    0%{transform:scale(1); text-shadow:0 0 0 rgba(255,80,80,0)}
+    25%{transform:scale(1.02); text-shadow:0 8px 30px rgba(255,80,80,0.06)}
+    50%{transform:scale(1); text-shadow:0 0 0 rgba(255,80,80,0)}
+    75%{transform:scale(1.015); text-shadow:0 10px 36px rgba(255,80,80,0.05)}
+    100%{transform:scale(1); text-shadow:0 0 0 rgba(255,80,80,0)}
+  }
+
+  /* layout */
+  .intro{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+  .left{min-width:0}
+  .right{min-width:0}
+
+  .section{background:var(--card-bg);border-radius:12px;padding:18px;margin-bottom:16px;border:1px solid rgba(255,80,80,0.03);transition:transform .16s ease,box-shadow .16s ease}
+  .section:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(255,59,59,0.04)}
+  .section h2{margin:0 0 8px;font-family:'Playfair Display',serif;color:var(--red2);font-size:20px}
+  .muted{color:var(--muted);font-size:13px;margin-bottom:10px}
+
+  /* cards for Types */
+  .types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:10px}
+  .type-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:12px;border-radius:10px;border:1px solid rgba(255,80,80,0.03);display:flex;gap:12px;align-items:flex-start}
+  .type-icon{width:48px;height:48px;border-radius:10px;background:linear-gradient(90deg,#ffdede,#ffd2d2);display:flex;align-items:center;justify-content:center;color:#420000;font-size:20px;flex-shrink:0}
+  .type-card h4{margin:0;font-size:15px}
+  .type-card p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+  /* list & table */
+  ul{padding-left:18px;color:#fff}
+  li{margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left;color:#fff}
+  th{background:linear-gradient(90deg,#ffdede,#ffd2d2);color:#3a1414;font-weight:700;border-radius:6px}
+
+  /* images */
+  .hero-img{width:100%;height:220px;border-radius:12px;object-fit:cover;border:1px solid rgba(255,80,80,0.04)}
+  .small-img{width:100%;height:120px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,80,80,0.04);margin-top:10px}
+
+  /* right column elements */
+  .right .section{position:sticky;top:26px}
+
+  /* buttons */
+  .btn{display:inline-block;padding:12px 18px;border-radius:10px;background:linear-gradient(90deg,var(--red2),var(--red1));color:#210a0a;text-decoration:none;font-weight:700;box-shadow:0 14px 40px rgba(255,80,80,0.12)}
+  .btn:hover{transform:translateY(-4px)}
+  .link-muted{color:var(--muted);text-decoration:underline;cursor:pointer}
+
+  footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+  /* responsive */
+  @media (max-width:980px){
+    .intro{grid-template-columns:1fr}
+    .right .section{position:static}
+    .logo{width:72px;height:72px}
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="container">
+
+      <!-- Header -->
+      <header>
+        <div class="logo" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1541024895591-3a4d7e7a57f1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0b3b0a2d6d6b8b1a2c3d4e5f6a7b8c9d" alt="heart illustration">
+        </div>
+        <div class="title">
+          <h1>❤️ About Heart Disease</h1>
+          <p class="muted">Learn the basics, symptoms, types, causes and diagnosis</p>
+        </div>
+      </header>
+
+      <div class="intro">
+        <!-- LEFT COLUMN -->
+        <div class="left">
+
+          <section class="section" aria-labelledby="what">
+            <h2 id="what">What is Heart Disease? 🫀</h2>
+            <p class="muted">A concise overview</p>
+            <p>
+              Heart disease is a broad term that covers various conditions affecting the heart and blood vessels.
+              It includes disorders such as coronary artery disease (narrowing of the arteries), arrhythmias (irregular heartbeat),
+              heart failure (pump failure), and congenital heart defects. These conditions may lead to chest pain, heart attacks,
+              reduced exercise tolerance, or life-threatening complications.
+            </p>
+            <img class="hero-img" src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1971a88b6f6a2e4a6f3d8c2c7b9d4e9f" alt="heart health">
+          </section>
+
+          <section class="section" aria-labelledby="types">
+            <h2 id="types">Types of Heart Disease 🧩</h2>
+            <p class="muted">Common categories</p>
+
+            <div class="types-grid">
+              <div class="type-card">
+                <div class="type-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                <div>
+                  <h4>Coronary Artery Disease (CAD)</h4>
+                  <p>Blockage of coronary arteries supplying the heart muscle — often causes angina and myocardial infarction.</p>
+                </div>
+              </div>
+
+              <div class="type-card">
+                <div class="type-icon"><i class="fa-solid fa-bolt"></i></div>
+                <div>
+                  <h4>Arrhythmia</h4>
+                  <p>Abnormal heart rhythms (too fast, too slow or irregular) which can affect heart function and safety.</p>
+                </div>
+              </div>
+
+              <div class="type-card">
+                <div class="type-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div>
+                  <h4>Heart Failure</h4>
+                  <p>Condition where the heart cannot pump sufficient blood to meet the body's needs (chronic or acute).</p>
+                </div>
+              </div>
+
+              <div class="type-card">
+                <div class="type-icon"><i class="fa-solid fa-baby-carriage"></i></div>
+                <div>
+                  <h4>Congenital Heart Disease</h4>
+                  <p>Structural heart defects present from birth that may require monitoring or corrective procedures.</p>
+                </div>
+              </div>
+
+              <div class="type-card">
+                <div class="type-icon"><i class="fa-solid fa-skull-crossbones"></i></div>
+                <div>
+                  <h4>Valvular Heart Disease</h4>
+                  <p>Diseases of heart valves causing stenosis or regurgitation and impairing blood flow dynamics.</p>
+                </div>
+              </div>
+
+              <div class="type-card">
+                <div class="type-icon"><i class="fa-solid fa-dna"></i></div>
+                <div>
+                  <h4>Cardiomyopathy</h4>
+                  <p>Diseases of heart muscle that weaken the heart and may lead to failure or arrhythmias.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="causes">
+            <h2 id="causes">Causes 🔎</h2>
+            <p class="muted">How heart disease develops</p>
+            <ul>
+              <li>Atherosclerosis — build-up of plaque inside arteries due to cholesterol and inflammation.</li>
+              <li>High blood pressure (hypertension) causing wear-and-tear on vessels and the heart.</li>
+              <li>Genetic predisposition and inherited syndromes.</li>
+              <li>Metabolic diseases such as diabetes and obesity accelerating vascular damage.</li>
+              <li>Infections, toxins, and some autoimmune conditions affecting heart tissue.</li>
+            </ul>
+          </section>
+
+          <section class="section" aria-labelledby="symptoms">
+            <h2 id="symptoms">Symptoms ⚠️</h2>
+            <p class="muted">Signs to watch for</p>
+            <ul>
+              <li>Chest pain (angina), discomfort, pressure or squeezing sensation.</li>
+              <li>Shortness of breath during activity or at rest.</li>
+              <li>Palpitations, light-headedness, dizziness or fainting.</li>
+              <li>Unexplained fatigue, weakness, reduced exercise tolerance.</li>
+              <li>Swelling in legs or abdomen (sign of heart failure).</li>
+            </ul>
+          </section>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="right">
+          <section class="section" aria-labelledby="risk">
+            <h2 id="risk">Risk Factors 🚨</h2>
+            <p class="muted">What increases the likelihood</p>
+            <ul>
+              <li>Age (risk rises with age)</li>
+              <li>Family history of heart disease</li>
+              <li>High blood pressure, high cholesterol</li>
+              <li>Diabetes and metabolic syndrome</li>
+              <li>Smoking, sedentary lifestyle, unhealthy diet</li>
+              <li>Excess alcohol, stress, poor sleep</li>
+            </ul>
+            <img class="small-img" src="https://images.unsplash.com/photo-1542736667-069246bdbc93?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7d9d4d1a1f0a2b3c4d5e6f7a8b9c0d1e" alt="risk factors">
+          </section>
+
+          <section class="section" aria-labelledby="impact">
+            <h2 id="impact">Global Impact & Statistics 🌍</h2>
+            <p class="muted">Brief facts</p>
+            <p>
+              Cardiovascular diseases remain the leading cause of death globally. They account for a large proportion of premature mortality and healthcare burden.
+              Regional incidence and mortality vary; many cases are associated with modifiable risk factors and social determinants of health.
+            </p>
+            <table aria-label="global stats">
+              <tr><th>Metric</th><th>Notes</th></tr>
+              <tr><td>Leading cause</td><td>Major cause of global mortality</td></tr>
+              <tr><td>Premature deaths</td><td>Substantial proportion in low- and middle-income countries</td></tr>
+              <tr><td>Economic impact</td><td>High healthcare & productivity costs</td></tr>
+            </table>
+          </section>
+
+          <section class="section" aria-labelledby="diagnosis">
+            <h2 id="diagnosis">Diagnosis Methods 🧪</h2>
+            <p class="muted">How clinicians evaluate heart disease</p>
+            <ul>
+              <li>Clinical history and physical examination</li>
+              <li>Electrocardiogram (ECG) to detect arrhythmia or ischemia</li>
+              <li>Blood tests: cardiac enzymes, lipids, glucose</li>
+              <li>Imaging: echocardiography, cardiac CT, MRI</li>
+              <li>Stress testing and coronary angiography when indicated</li>
+            </ul>
+            <img class="small-img" src="https://images.unsplash.com/photo-1581092795365-7bf0c1b67a3d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8b6e2b9a6c3d2f1a2b3c4d5e6f7a8b9c" alt="diagnosis">
+          </section>
+
+        </div>
+      </div>
+
+      <!-- Footer controls -->
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
+        <div style="color:var(--muted);font-size:13px">Prepared for awareness • Red theme</div>
+        <div style="display:flex;gap:12px">
+          <a class="btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10809869/" title="More info">For more info click here</a>
+          <a class="btn" href="index.html" title="Back to Dashboard">← Back to Dashboard</a>
+        </div>
+      </div>
+
+      <footer>
+        <p style="margin-top:12px;color:var(--muted)"> • For educational/informational use only — not a substitute for medical advice.</p>
+      </footer>
+
+    </div>
+  </div>
+</body>
+</html>

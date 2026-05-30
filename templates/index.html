@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Heart Disease Prediction Using Machine Learning</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-1: #07050a;
+    --bg-2: #120814;
+    --card-bg: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.06);
+    --red-1: #ff3b3b;
+    --red-2: #ff6b6b;
+    --navy: #07172a;
+    --accent-1: #9b5cff; /* purple */
+    --accent-2: #00d2ff; /* cyan */
+    --muted: #cfcfcf;
+    --radius: 16px;
+    --transition: 420ms cubic-bezier(.2,.9,.2,1);
+    --glass-blur: 8px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    background: linear-gradient(135deg,var(--bg-1),var(--bg-2));
+    color:#f4f7fb;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.5;
+    overflow-y:auto;
+  }
+
+  /* ambient color bands for multi-color feel */
+  .ambient {
+    position:fixed; inset:0; z-index:-3; pointer-events:none;
+    background:
+      radial-gradient(600px 300px at 10% 10%, rgba(255,90,90,0.06), transparent 10%),
+      radial-gradient(500px 300px at 80% 20%, rgba(155,92,255,0.05), transparent 12%),
+      radial-gradient(500px 300px at 50% 85%, rgba(0,210,255,0.04), transparent 14%);
+    filter: blur(18px) saturate(0.9);
+    animation: ambientMove 12s ease-in-out infinite alternate;
+  }
+  @keyframes ambientMove { from{ transform: translateY(0)} to{ transform: translateY(-8px)} }
+
+  .container{ max-width:1200px; margin:30px auto; padding:20px; }
+
+  /* Header */
+  header{
+    display:flex; align-items:center; gap:16px;
+    padding:20px 20px; border-radius:14px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    border: 1px solid rgba(255,255,255,0.02);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px) saturate(1.05);
+    margin-bottom:20px;
+    position:relative;
+    overflow:visible;
+  }
+
+  .logo-square{
+    width:72px; height:72px; flex-shrink:0; border-radius:6px; overflow:hidden;
+    border:2px solid rgba(255,255,255,0.06); background:linear-gradient(90deg,var(--red-1),var(--accent-1));
+    display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 26px rgba(255,59,59,0.08);
+  }
+  .logo-square img{ width:100%; height:100%; object-fit:cover; display:block }
+
+  h1{
+    font-family:'Orbitron',sans-serif; font-weight:800; font-size:clamp(20px,3.4vw,36px);
+    letter-spacing:1px; color: #fff; margin:0;
+    text-transform:none;
+  }
+  p.subtitle{ margin:6px 0 0; color:var(--muted); font-size:13px }
+
+  /* rows (full-width cards stacked) */
+  .rows{ display:flex; flex-direction:column; gap:22px; margin-top:18px; }
+
+  .row {
+    display:flex; gap:20px; align-items:stretch; border-radius:var(--radius);
+    overflow:hidden; position:relative; cursor:pointer;
+    transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    border:1px solid rgba(255,255,255,0.03);
+    background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.02));
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(var(--glass-blur));
+  }
+
+  /* left image column */
+  .row .left {
+    flex:0 0 44%; min-height:220px; position:relative; overflow:hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .row .left img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transform: translateX(-8px) scale(1);
+    transition: transform 700ms cubic-bezier(.2,.9,.2,1), filter 700ms ease;
+    will-change: transform;
+  }
+
+  /* right content column */
+  .row .right{
+    flex:1; padding:28px 26px; display:flex; flex-direction:column; justify-content:center;
+  }
+  .row .title{
+    font-size:20px; font-weight:700; color:#fff; display:flex; gap:12px; align-items:center;
+    transform: translateX(0);
+    transition: transform 520ms cubic-bezier(.2,.9,.2,1);
+  }
+  .row .title .emoji{ font-size:22px; display:inline-block }
+
+  .row .desc{ margin-top:10px; color:var(--muted); font-size:15px; line-height:1.45 }
+
+  /* hover: slide & glow + glass blur */
+  .row:hover{
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 28px 80px rgba(255,59,59,0.12), inset 0 0 0 1px rgba(255,255,255,0.02);
+    border-color: rgba(155,92,255,0.15);
+  }
+  .row:hover .left img{ transform: translateX(0) scale(1.06) rotate(-0.6deg); filter: saturate(1.05) contrast(1.03) }
+  .row:hover .right { transform: translateX(8px) }
+  .row::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background: linear-gradient(120deg, rgba(255,59,59,0.02), rgba(155,92,255,0.02));
+    opacity:0; transition: opacity 420ms ease;
+  }
+  .row:hover::after{ opacity:1 }
+
+  /* glass sheen effect */
+  .row .sheen{
+    position:absolute; left:-40%; top:-10%; width:40%; height:160%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02), transparent);
+    transform: rotate(-18deg) translateX(0);
+    transition: transform 1200ms cubic-bezier(.2,.9,.2,1), opacity 800ms;
+    opacity:0.0;
+  }
+  .row:hover .sheen{ transform: translateX(140%); opacity:0.12 }
+
+  /* subtle continuous shimmer along left edge */
+  .row .edge-glow{
+    position:absolute; left:0; top:0; bottom:0; width:6px;
+    background: linear-gradient(180deg, rgba(255,59,59,0.9), rgba(155,92,255,0.8));
+    filter: blur(10px); opacity:0.14;
+  }
+  .row:hover .edge-glow{ opacity:0.32; transform: scaleY(1.02) }
+
+  /* accessible focus outline */
+  .row:focus{ outline: none; box-shadow: 0 28px 80px rgba(34,118,160,0.12); }
+
+  /* responsive layout: stack image above content */
+  @media (max-width:880px){
+    .row{ flex-direction:column }
+    .row .left{ flex:0 0 auto; width:100%; height:240px }
+    .row .right{ padding:18px; }
+  }
+
+  /* entrance animations: fade + slide */
+  .fadeUp{ opacity:0; transform: translateY(18px); animation:fadeUp 700ms ease forwards; }
+  .fadeUp.delay-1{ animation-delay:140ms }
+  .fadeUp.delay-2{ animation-delay:260ms }
+  .fadeUp.delay-3{ animation-delay:380ms }
+  .fadeUp.delay-4{ animation-delay:500ms }
+  @keyframes fadeUp{ to{ opacity:1; transform:none } }
+
+  footer{ margin-top:28px; text-align:center; color:var(--muted); font-size:13px }
+</style>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+
+  <div class="container" role="main">
+    <header role="banner" aria-label="Page header">
+      <div class="logo-square" aria-hidden="true" title="Project logo">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbgCd6MCoKCGOt3kd2hHuKOZi7_Oi6iMvNzQ&s" alt="Logo">
+      </div>
+
+      <div>
+        <h1>Heart Disease Prediction Using Machine Learning</h1>
+        <p class="subtitle">CardioVision AI — Documentation & tools for screening (click any card to open in a new tab)</p>
+      </div>
+    </header>
+
+    <main class="rows" aria-label="Dashboard sections">
+
+      <!-- 1. About the Project (row 1) -->
+      <a href="{{ url_for('project_info') }}" class="row fadeUp delay-1">
+        <div class="left" aria-hidden="true">
+          <img src="https://www.shutterstock.com/image-photo/project-bulb-word-cloud-business-260nw-273566144.jpg" alt="Project Illustration">
+        </div>
+
+        <div class="right">
+          <div class="edge-glow" aria-hidden="true"></div>
+          <div class="sheen" aria-hidden="true"></div>
+
+          <div id="r1" class="title"><span class="emoji">💡</span> About This Project</div>
+          <div class="desc">
+            Detailed documentation of the ML pipeline: dataset, preprocessing, models trained, evaluation metrics, results and deployment notes.
+            Use this page to access the full project report, code, and downloadable artifacts.
+          </div>
+        </div>
+      </a>
+
+      <!-- 2. About Heart Disease (row 2) -->
+      <a href="{{ url_for('about_heart') }}" class="row fadeUp delay-2">
+        <div class="left" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1971a88b6f6a2e4a6f3d8c2c7b9d4e9f" alt="Heart Health">
+        </div>
+
+        <div class="right">
+          <div class="edge-glow" aria-hidden="true"></div>
+          <div class="sheen" aria-hidden="true"></div>
+
+          <div id="r2" class="title"><span class="emoji">❤️</span> About Heart Disease</div>
+          <div class="desc">
+            Overview of heart disease types (CAD, arrhythmias, heart failure), common symptoms, causes and diagnostics — aimed at clinicians and students.
+          </div>
+        </div>
+      </a>
+
+      <!-- 3. Prevention Tips (row 3) -->
+      <a href="{{ url_for('prevention_tips') }}" class="row fadeUp delay-3">
+        <div class="left" aria-hidden="true">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4cKJjG5h9WjzUmiH3wtN88qkfbnlWupHbDg&s" alt="Prevention">
+        </div>
+
+        <div class="right">
+          <div class="edge-glow" aria-hidden="true"></div>
+          <div class="sheen" aria-hidden="true"></div>
+
+          <div id="r3" class="title"><span class="emoji">🛡️</span> Prevention Tips</div>
+          <div class="desc">
+            Practical, research-backed lifestyle guidance — diet, exercise, and monitoring strategies that support heart health (informational page).
+          </div>
+        </div>
+      </a>
+
+      <!-- 4. Predict Your Risk (row 4 - last) -->
+      <a href="{{ url_for('predict') }}" class="row fadeUp delay-4">
+        <div class="left" aria-hidden="true">
+          <img src="https://img.freepik.com/premium-vector/cardiology-cardiovascular-heart-diagnostics-cardiologist-doctor-diagnosis-heart-disease-medical-check-up-transplantation-research-heart-attack-hypertension-diabetes_284092-2641.jpg" alt="Predict Risk">
+        </div>
+
+        <div class="right">
+          <div class="edge-glow" aria-hidden="true"></div>
+          <div class="sheen" aria-hidden="true"></div>
+
+          <div id="r4" class="title"><span class="emoji">🔍</span> Predict Your Risk</div>
+          <div class="desc">
+            Launch the prediction interface to input patient features and receive an AI-assisted risk estimate. (Opens the predictor tool in a new tab.)
+          </div>
+        </div>
+      </a>
+
+    </main>
+
+    <footer>
+      CardioVision AI • Heart Disease Prediction Using Machine Learning • © 2025
+    </footer>
+  </div>
+
+  <!-- small inline script to enable keyboard focus on rows for accessibility -->
+  <script>
+    // Make .row anchors focusable and support Enter key activation for accessibility
+    document.querySelectorAll('.row').forEach(function(el){
+      el.setAttribute('tabindex','0');
+      el.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){
+          // emulate click
+          el.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

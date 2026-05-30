@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – Heart Disease Detection</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body,
+    html {
+      height: 100%;
+      background: #2c003e;
+      color: #fff;
+    }
+
+    /* Main Container */
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
+
+    /* Left Panel */
+    .left {
+      flex: 1.2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: #1a1521;
+    }
+
+    /* Login Box */
+    .form-box {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 42px;
+      border-radius: 18px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      transition: transform 0.35s ease;
+    }
+
+    .form-box:hover {
+      transform: translateY(-6px);
+    }
+
+    .form-box h3 {
+      text-align: center;
+      margin-bottom: 26px;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #9cf2ff;
+      letter-spacing: 1.5px;
+    }
+
+    /* Inputs */
+    .entry {
+      width: 100%;
+      height: 48px;
+      margin-bottom: 20px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #3a3a3a;
+      background: rgba(0, 0, 0, 0.3);
+      color: #f5f5f5;
+      transition: 0.3s;
+    }
+
+    .entry:focus {
+      border-color: #39c8ff;
+      box-shadow: 0 0 8px rgba(57, 200, 255, 0.6);
+      outline: none;
+    }
+
+    /* Button */
+    #submit {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(125deg, #256782, #007c9d);
+      color: #4f7fb7;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.35s ease;
+    }
+
+    #submit:hover {
+      background: linear-gradient(125deg, #007c9d, #38c6ff);
+      transform: scale(1.04);
+    }
+
+    /* Right Panel */
+    .right {
+      flex: 1.8;
+      position: relative;
+      background: url("https://static.vecteezy.com/system/resources/previews/029/282/977/large_2x/human-heart-with-cardiogram-for-medical-heart-health-care-background-ai-generative-free-photo.jpg") no-repeat center center/cover;
+    }
+
+    .right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    .right-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 50px;
+    }
+
+    .right h2 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #f7f7f7;
+    }
+
+    .right p {
+      font-size: 1.1rem;
+      color: #dcdcdc;
+      line-height: 1.5;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left,
+      .right {
+        height: 50%;
+      }
+
+      .form-box {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🧭 NAVIGATION BAR (ADD THIS) -->
+  <!-- <nav>
+    <a href="{{ url_for('signup') }}">Home</a> |
+    <a href="{{ url_for('login') }}">Login</a> |
+    <a href="{{ url_for('signup') }}">Sign Up</a>
+  </nav> -->
+
+
+  <div class="container">
+    <!-- Left: Login form -->
+    <div class="left">
+      <div class="form-box">
+        <h3>🫀 Login</h3>
+        <h2>Login</h2>
+        <form action="{{ url_for('login') }}" method="POST">
+          <input type="text" name="username" placeholder="Username" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+          <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+
+      </div>
+    </div>
+
+    <!-- Right: Background + welcome -->
+    <div class="right">
+      <div class="right-content">
+        <h2>Welcome Back!</h2>
+        <p>Sign in to access your Heart Disease Detection Dashboard.<br>
+          Empower your health with AI-powered insights.</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

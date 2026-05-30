@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Heart Disease Prediction — Project Documentation</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pap7W8m+gkGq0z0tQv1kY3u1Zk3e6xR1yQXqf5l6b7Q8fy/5P1rG1t3Y6+q1w7k6Y9Fq3y2Z0Qz3Xq6ZQ2y1sg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  :root{
+    --bg-top:#031022;
+    --bg-bottom:#07121a;
+    --cyan: #00f0ff;
+    --royal:#4d9fff;
+    --accent:#8fb8ff;
+    --muted:#98bfc8;
+    --card-bg: rgba(255,255,255,0.02);
+    --card-border: rgba(77,159,255,0.10);
+    --page-radius: 18px;
+    --soft-glow: 0 18px 60px rgba(77,159,255,0.06);
+  }
+
+  *{box-sizing:border-box}
+  html,body{
+    margin:0; min-height:100vh;
+    font-family:'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color:#e9fbff;
+    background: linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* Page frame with gradient border */
+  .page-frame{
+    max-width:1180px;
+    margin:32px auto;
+    padding:0;
+    border-radius:calc(var(--page-radius) + 6px);
+    position:relative;
+  }
+  .page-frame:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:calc(var(--page-radius) + 6px);
+    padding:4px;
+    background:
+      linear-gradient(90deg, rgba(0,240,255,0.18), rgba(77,159,255,0.14), rgba(140,80,255,0.12)) border-box,
+      linear-gradient(180deg,#031022, #07121a) padding-box;
+    -webkit-mask:
+      linear-gradient(#fff,#fff) content-box,
+      linear-gradient(#fff,#fff);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events:none;
+  }
+
+  /* inner container */
+  .container{
+    position:relative;
+    border-radius:var(--page-radius);
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    padding:26px;
+    box-shadow:var(--soft-glow);
+    border:1px solid var(--card-border);
+    overflow:hidden;
+  }
+
+  header{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    margin-bottom:18px;
+  }
+
+  /* circular image (user image) */
+  .logo-wrap{
+    width:100px;
+    height:100px;
+    flex-shrink:0;
+    border-radius:20px;
+    background:linear-gradient(135deg,var(--cyan),var(--royal));
+    padding:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 12px 36px rgba(77,159,255,0.08);
+    border:1px solid rgba(255,255,255,0.06);
+  }
+  .logo{
+    width:88px;
+    height:88px;
+    border-radius:50%;
+    overflow:hidden;
+    display:block;
+    object-fit:cover;
+    border:3px solid rgba(255,255,255,0.06);
+    background:#061424;
+  }
+
+  .title{
+    flex:1;
+    min-width:0;
+  }
+  .title h1{
+    margin:0;font-family:'Orbitron',sans-serif;color:var(--cyan);font-size:22px;
+    text-shadow:0 6px 30px rgba(0,240,255,0.04);
+  }
+  .title p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+  /* layout grid */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 380px;
+    gap:20px;
+    align-items:start;
+  }
+
+  /* section base */
+  .section{
+    background:var(--card-bg);
+    border-radius:12px;
+    padding:18px;
+    border:1px solid rgba(255,255,255,0.04);
+    transition:transform .18s ease, box-shadow .18s ease;
+    box-shadow:0 8px 30px rgba(0,0,0,0.5);
+    margin-bottom:16px;
+  }
+  .section:hover{transform:translateY(-6px); box-shadow:0 24px 60px rgba(77,159,255,0.06)}
+  .section h2{margin:0 0 8px;color:var(--royal);font-family:'Orbitron',sans-serif}
+  .muted{color:var(--muted);font-size:13px;margin-bottom:10px}
+  ul{margin:10px 0 0 18px;padding:0;color:#dff7fb}
+  li{margin-bottom:8px}
+
+  /* methodology vertical flow */
+  .workflow {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .step {
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.03);
+    background:linear-gradient(180deg, rgba(255,255,255,0.008), transparent);
+  }
+  .step .icon {
+    width:44px;
+    height:44px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    color:var(--cyan);
+    font-size:18px;
+    flex-shrink:0;
+    border:1px solid rgba(0,240,255,0.06);
+  }
+  .step .body {flex:1}
+  .step h4 {margin:0;color:#e8fbff;font-size:15px}
+  .step p {margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+
+  /* algorithm list */
+  .alg-list{display:flex;flex-direction:column;gap:12px}
+  .alg-card{
+    display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;
+    border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  }
+  .alg-icon{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--royal));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 28px rgba(77,159,255,0.06)}
+  .alg-icon svg{width:28px;height:28px;fill:#011820}
+  .alg-title{font-weight:600;color:#e6fbff;margin:0}
+  .alg-sub{color:var(--muted);font-size:13px;margin:2px 0 0}
+
+  /* right column table and chart */
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
+  th{color:var(--accent);font-weight:700}
+  .chart-wrap{padding:12px;border-radius:10px;border:1px solid rgba(77,159,255,0.04);background:linear-gradient(180deg, rgba(77,159,255,0.01), transparent)}
+
+  /* flowchart mini (keeps earlier SVG for visual) */
+  .flow-wrap{display:flex;justify-content:center;padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
+
+  /* back button */
+  .btn-row{display:flex;justify-content:flex-end;margin-top:18px}
+  .btn-back{
+    display:inline-block;padding:12px 18px;border-radius:10px;background:linear-gradient(90deg,var(--royal),var(--cyan));
+    color:#021226;text-decoration:none;font-weight:700;border:none;cursor:pointer;box-shadow:0 16px 48px rgba(77,159,255,0.12);
+    transition:transform .16s ease, box-shadow .16s ease, filter .16s;
+  }
+  .btn-back:hover{transform:translateY(-6px);box-shadow:0 34px 74px rgba(77,159,255,0.20);filter:brightness(1.02)}
+  .btn-back:active{transform:translateY(-3px)}
+
+  footer{margin-top:22px;color:var(--muted);font-size:13px;text-align:center;padding-bottom:8px}
+
+  /* responsive */
+  @media (max-width:980px){
+    .grid{grid-template-columns:1fr}
+    header{flex-direction:row;gap:12px}
+    .logo-wrap{width:80px;height:80px}
+  }
+  @media (max-width:640px){
+    .logo-wrap{width:72px;height:72px}
+    .title h1{font-size:18px}
+  }
+
+  /* subtle fade-in */
+  .fade-in{opacity:0; transform:translateY(8px); animation:fadeIn 0.6s forwards ease;}
+  .fade-in.delay-1{animation-delay:0.04s}
+  .fade-in.delay-2{animation-delay:0.08s}
+  .fade-in.delay-3{animation-delay:0.12s}
+  @keyframes fadeIn{to{opacity:1; transform:none}}
+</style>
+</head>
+<body>
+  <div class="page-frame">
+    <div class="container" role="main">
+
+      <!-- header -->
+      <header class="fade-in">
+        <div class="logo-wrap" aria-hidden="true">
+          <img class="logo" src="https://view.subpage.app/app/company/C532b8873cc5442e2b1f2265b77a7d7dc/domain/MTiT0jFlGh/page/Ma9aQb2DGh/article/M52e59e269bfbc6d871027a280eb17cb21721814253357/hero/M4cd31c583ffb66e17295695c64b440bd1722590762244.webp" alt="Project visual" />
+        </div>
+
+        <div class="title">
+          <h1>Heart Disease Prediction Using Machine Learning</h1>
+          <p class="muted">Clinical risk screening • Model comparison • Deployment-ready pipeline</p>
+        </div>
+      </header>
+
+      <!-- Abstract -->
+      <section class="section fade-in delay-1" id="abstract">
+        <h2>Abstract</h2>
+        <p class="muted">Concise summary</p>
+        <p>This project builds an end-to-end ML pipeline to predict heart disease from clinical features (age, BP, cholesterol, ECG metrics, and more). Models were trained, evaluated, compared and prepared for deployment as a web API for screening support.</p>
+      </section>
+
+      <!-- Problem -->
+      <section class="section fade-in delay-2" id="problem">
+        <h2>Problem Statement & Scope</h2>
+        <p class="muted">Why this matters</p>
+        <ul>
+          <li><strong>Problem:</strong> Early detection of heart disease is critical — manual screening is time-consuming and variable.</li>
+          <li><strong>Scope:</strong> Use routinely available clinical parameters to build a reproducible ML model for screening and clinician-assisted decision support.</li>
+        </ul>
+      </section>
+
+      <div class="grid">
+        <div>
+          <!-- Objectives -->
+          <section class="section fade-in delay-1" id="objectives">
+            <h2>Objectives</h2>
+            <ul>
+              <li>Train and compare multiple classifiers on a hold-out test set.</li>
+              <li>Provide interpretability guidance (feature importance / SHAP).</li>
+              <li>Prepare a deployment-ready pipeline (Flask API + saved model).</li>
+            </ul>
+          </section>
+
+          <!-- Dataset -->
+          <section class="section fade-in delay-2" id="dataset">
+            <h2>Dataset Description</h2>
+            <p class="muted">Core features (verify column names in your CSV/DataFrame)</p>
+            <table role="table" style="width:100%;border-collapse:collapse;">
+              <tr><th>Feature</th><th>Description</th></tr>
+              <tr><td>age</td><td>Patient's age in years</td></tr>
+              <tr><td>sex</td><td>1 = male, 0 = female</td></tr>
+              <tr><td>cp</td><td>Chest pain type (categorical)</td></tr>
+              <tr><td>trestbps</td><td>Resting blood pressure (mm Hg)</td></tr>
+              <tr><td>chol</td><td>Serum cholesterol (mg/dl)</td></tr>
+              <tr><td>fbs</td><td>Fasting blood sugar > 120 mg/dl (binary)</td></tr>
+              <tr><td>restecg</td><td>Resting ECG results (categorical)</td></tr>
+              <tr><td>thalach</td><td>Maximum heart rate achieved</td></tr>
+              <tr><td>exang</td><td>Exercise-induced angina (binary)</td></tr>
+              <tr><td>oldpeak</td><td>ST depression induced by exercise relative to rest</td></tr>
+              <tr><td>slope, ca, thal</td><td>Additional clinical indicators</td></tr>
+              <tr><td>target</td><td>0 = No disease, 1 = Disease</td></tr>
+            </table>
+          </section>
+
+          <!-- Methodology: vertical flow + details -->
+          <section class="section fade-in delay-3" id="method">
+            <h2>Methodology & Workflow</h2>
+            <p class="muted">Clear step-by-step process (vertical)</p>
+
+            <!-- vertical workflow -->
+            <div class="workflow" role="list" aria-label="Methodology workflow">
+
+              <!-- 1 Data Collection -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-database"></i></div>
+                <div class="body">
+                  <h4>1. Data Collection</h4>
+                  <p>Gather dataset from reliable sources (UCI / Kaggle or hospital records). Load CSV/Excel into a DataFrame and inspect for schema, missing values and basic stats.</p>
+                </div>
+              </div>
+
+              <!-- 2 Data Visualization -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-chart-simple"></i></div>
+                <div class="body">
+                  <h4>2. Data Visualization</h4>
+                  <p>Perform EDA: histograms, boxplots, correlation heatmap and scatterplots to detect distribution, outliers, and relationships between features and target.</p>
+                </div>
+              </div>
+
+              <!-- 3 Feature & Target -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-columns"></i></div>
+                <div class="body">
+                  <h4>3. Splitting the Features and Target</h4>
+                  <p>Separate the dataset into <code>X</code> (features) and <code>y</code> (target). Drop irrelevant columns and create any derived features needed for modeling.</p>
+                </div>
+              </div>
+
+              <!-- 4 Train-Test split -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-code-branch"></i></div>
+                <div class="body">
+                  <h4>4. Train — Test Split</h4>
+                  <p>Split data into training and testing sets (common splits: 80/20 or 75/25). Use stratified sampling for imbalanced classes to preserve class ratio.</p>
+                </div>
+              </div>
+
+              <!-- 5 Model Training -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-robot"></i></div>
+                <div class="body">
+                  <h4>5. Model Training</h4>
+                  <p>Train selected models (Logistic Regression, Naive Bayes, KNN, Decision Tree, SVM) with consistent preprocessing pipelines. Use cross-validation (StratifiedKFold) and tune hyperparameters.</p>
+                </div>
+              </div>
+
+              <!-- 6 Model Evaluation -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="body">
+                  <h4>6. Model Evaluation</h4>
+                  <p>Evaluate models on the test set using Accuracy, Precision, Recall, F1-score, and ROC-AUC. Inspect confusion matrices and compare model trade-offs based on the use-case (favor recall for screening).</p>
+                </div>
+              </div>
+
+              <!-- 7 Predicting Results -->
+              <div class="step" role="listitem">
+                <div class="icon" aria-hidden="true"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                <div class="body">
+                  <h4>7. Predicting Results</h4>
+                  <p>Use the persisted pipeline (scaler/encoder + model) to predict on new patient inputs. Return class label and probability/confidence; provide explanation (top contributing features) when possible.</p>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Algorithms (brief) -->
+          <section class="section fade-in" id="algorithms">
+            <h2>Algorithms — Details & Notes</h2>
+            <p class="muted">Only the models included in your project (test accuracies shown)</p>
+
+            <div class="alg-list" role="list">
+              <div class="alg-card" role="listitem">
+                <div class="alg-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h6v6H3zM13 6h8v2h-8zM13 10h8v2h-8zM13 14h8v2h-8z" /></svg></div>
+                <div><div class="alg-title">Logistic Regression</div><div class="alg-sub">Accuracy: <strong>0.7951 (79.51%)</strong> — Fast & interpretable baseline.</div></div>
+              </div>
+
+              <div class="alg-card" role="listitem">
+                <div class="alg-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2L2 7v6c0 5 5 9 10 9s10-4 10-9V7l-10-5z"/></svg></div>
+                <div><div class="alg-title">Naive Bayes</div><div class="alg-sub">Accuracy: <strong>0.8000 (80.00%)</strong> — Probabilistic, fast for baseline checks.</div></div>
+              </div>
+
+              <div class="alg-card" role="listitem">
+                <div class="alg-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-1 6h2v6h-2V8zm0 8h2v2h-2v-2z"/></svg></div>
+                <div><div class="alg-title">K-Nearest Neighbors (KNN)</div><div class="alg-sub">Accuracy: <strong>0.6780 (67.80%)</strong> — Simple instance-based learner.</div></div>
+              </div>
+
+              <div class="alg-card" role="listitem">
+                <div class="alg-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v6h4v4h-4v6H8v-6H4v-4h4V2z"/></svg></div>
+                <div><div class="alg-title">Decision Tree</div><div class="alg-sub">Accuracy: <strong>0.9854 (98.54%)</strong> — Very high on this run; check overfitting with CV/pruning.</div></div>
+              </div>
+
+              <div class="alg-card" role="listitem">
+                <div class="alg-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 3h20v2H2zM6 12h12v2H6zM10 21h4v2h-4z"/></svg></div>
+                <div><div class="alg-title">Support Vector Machine (Linear)</div><div class="alg-sub">Accuracy: <strong>0.8049 (80.49%)</strong> — Margin-based classifier; tune regularization.</div></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <aside>
+          <section class="section fade-in" id="comparison">
+            <h2>Performance Comparison — Summary</h2>
+            <p class="muted">Test accuracies</p>
+            <table role="table" aria-label="Model accuracy table">
+              <tr><th>Algorithm</th><th style="text-align:right">Accuracy</th></tr>
+              <tr><td>Decision Tree</td><td style="text-align:right">98.54%</td></tr>
+              <tr><td>Support Vector Machine (Linear)</td><td style="text-align:right">80.49%</td></tr>
+              <tr><td>Naive Bayes</td><td style="text-align:right">80.00%</td></tr>
+              <tr><td>Logistic Regression</td><td style="text-align:right">79.51%</td></tr>
+              <tr><td>K-Nearest Neighbors (KNN)</td><td style="text-align:right">67.80%</td></tr>
+            </table>
+          </section>
+
+          <section class="section fade-in chart-wrap" id="chart">
+            <h2>Accuracy — Visual</h2>
+            <!-- Inline SVG bar chart -->
+            <svg width="300" height="220" viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto">
+              <rect width="300" height="220" fill="transparent"/>
+              <rect x="24" y="6" width="36" height="176" rx="6" fill="url(#g)"></rect>
+              <text x="42" y="198" font-size="11" fill="#e6fbff" text-anchor="middle">DT</text>
+              <text x="42" y="186" font-size="11" fill="#cfeef7" text-anchor="middle">98.54%</text>
+
+              <rect x="84" y="66" width="36" height="116" rx="6" fill="url(#g)"></rect>
+              <text x="102" y="198" font-size="11" fill="#e6fbff" text-anchor="middle">SVM</text>
+              <text x="102" y="186" font-size="11" fill="#cfeef7" text-anchor="middle">80.49%</text>
+
+              <rect x="144" y="68" width="36" height="114" rx="6" fill="url(#g)"></rect>
+              <text x="162" y="198" font-size="11" fill="#e6fbff" text-anchor="middle">NB</text>
+              <text x="162" y="186" font-size="11" fill="#cfeef7" text-anchor="middle">80.00%</text>
+
+              <rect x="204" y="72" width="36" height="110" rx="6" fill="url(#g)"></rect>
+              <text x="222" y="198" font-size="11" fill="#e6fbff" text-anchor="middle">LR</text>
+              <text x="222" y="186" font-size="11" fill="#cfeef7" text-anchor="middle">79.51%</text>
+
+              <rect x="264" y="110" width="36" height="72" rx="6" fill="url(#g)"></rect>
+              <text x="282" y="198" font-size="11" fill="#e6fbff" text-anchor="middle">KNN</text>
+              <text x="282" y="186" font-size="11" fill="#cfeef7" text-anchor="middle">67.80%</text>
+
+              <defs>
+                <linearGradient id="g" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#00f0ff"/>
+                  <stop offset="100%" stop-color="#4d9fff"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <p class="muted" style="margin-top:8px">Decision Tree shows the highest test accuracy — validate with cross-validation to confirm generalization and check for overfitting.</p>
+          </section>
+
+          <section class="section fade-in" id="deployment">
+            <h2>Deployment & Tools</h2>
+            <p class="muted">Suggested stack & notes</p>
+            <ul>
+              <li><strong>Languages & Libraries:</strong> Python, scikit-learn, pandas, numpy, matplotlib, joblib.</li>
+              <li><strong>Web framework:</strong> Flask (use `app_flask.py` to serve API).</li>
+              <li><strong>Persist pipeline:</strong> Save preprocessing + model with joblib (`joblib.dump(pipeline, 'saved_models/model.pkl')`).</li>
+              <li><strong>Production:</strong> Containerize with Docker, run under Gunicorn behind Nginx, enable HTTPS and logging/monitoring.</li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+
+      <!-- UI flow & conclusion -->
+      <section class="section full fade-in" id="ui">
+        <h2>UI Flow & Conclusion</h2>
+        <p class="muted">Recommended user flows</p>
+        <ol>
+          <li>Dashboard → View dataset & model comparison</li>
+          <li>Input Form → Enter clinical features</li>
+          <li>Prediction → Show result (class + probability) + explanation</li>
+          <li>Report → Save / export predictions for clinician review</li>
+        </ol>
+
+        <h3 style="margin-top:12px;color:var(--royal)">Conclusion & Future Work</h3>
+        <ul>
+          <li>Decision Tree performed best on the test split; validate further with cross-validation and external datasets.</li>
+          <li>Next steps: parameter tuning, calibration, ensemble models, SHAP explainability, monitoring and compliance for production.</li>
+        </ul>
+      </section>
+
+      <!-- References -->
+      <section class="section fade-in" id="refs">
+        <h2>References</h2>
+        <ul>
+          <li>UCI Machine Learning Repository — Heart Disease dataset</li>
+          <li>scikit-learn documentation (pipelines, metrics)</li>
+          <li>SHAP documentation for explainability</li>
+        </ul>
+      </section>
+
+      <!-- back to dashboard -->
+      <div class="btn-row">
+        <a class="btn-back" href="index.html" title="Back to Dashboard">← Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

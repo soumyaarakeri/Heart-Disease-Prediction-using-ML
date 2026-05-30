@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup – Heart Disease Detection</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #0d1117;
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Left Section */
+    .left {
+      flex: 1.2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #260248;
+      padding: 40px;
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 420px;
+      padding: 45px;
+      border-radius: 15px;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.7);
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .form-box h3 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #00e5ff;
+      text-shadow: 0 0 8px #00b4db;
+    }
+
+    .entry {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #0d1117;
+      color: #eee;
+      font-size: 15px;
+      transition: 0.3s ease;
+    }
+
+    .entry:focus {
+      border-color: #00b4db;
+      box-shadow: 0 0 12px #00b4db;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #00b4db, #2c5364);
+      color: #fff;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.4s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, #2c5364, #00b4db);
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(0, 180, 219, 0.6);
+    }
+
+    .form-box p {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .form-box a {
+      color: #00e5ff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .form-box a:hover {
+      color: #ff4081;
+    }
+
+    /* Right Part */
+    .right {
+      flex: 1.8;
+      background: url("https://static.vecteezy.com/system/resources/previews/029/282/977/large_2x/human-heart-with-cardiogram-for-medical-heart-health-care-background-ai-generative-free-photo.jpg") center/cover no-repeat;
+      position: relative;
+    }
+
+    .right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .right-content {
+      position: relative;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 0 40px;
+    }
+
+    .right h2 {
+      font-size: 2.4rem;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+
+    .right p {
+      font-size: 1.1rem;
+      color: #c6f6ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Left: Signup form -->
+    <div class="left">
+      <div class="form-box">
+        <h3>🫀 Sign Up</h3>
+        <form action="/signup" method="POST">
+          <input type="text" name="username" placeholder="Username" required><br>
+          <input type="email" name="email" placeholder="Email" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+          <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
+          <button type="submit">Sign Up</button>
+        </form>
+        <p>Already registered? <a href="{{ url_for('login') }}">Login here</a></p>
+      </div>
+    </div>
+
+    <!-- Right: Background + message -->
+    <div class="right">
+      <div class="right-content">
+        <h2>Join Us Today!</h2>
+        <p>Create your account to access<br>
+          AI-powered Heart Disease Detection and insights.</p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
